@@ -24,7 +24,7 @@ fn start() {
         let guess_number = guess.trim().parse::<i32>().expect("could not parse to i32");
 
         if correct_number == guess_number {
-            println!("congratulations!");
+            println!("Congratulations, you guessed the number!");
             game_state = "off";
         } else {
             let msg = if correct_number > guess_number {
