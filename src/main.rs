@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::cmp::Ordering;
 use std::io;
 
 fn main() {
@@ -21,18 +22,18 @@ fn start() {
             .read_line(&mut guess)
             .expect("could not read input");
 
-        let guess_number = guess.trim().parse::<i32>().expect("could not parse to i32");
+        let guess = match guess.trim().parse::<i32>() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
-        if correct_number == guess_number {
-            println!("Congratulations, you guessed the number!");
-            game_state = "off";
-        } else {
-            let msg = if correct_number > guess_number {
-                "That's too low"
-            } else {
-                "That's too high"
-            };
-            println!("{}", msg);
+        match guess.cmp(&correct_number) {
+            Ordering::Less => println!("That's too low"),
+            Ordering::Greater => println!("That's too high"),
+            Ordering::Equal => {
+                println!("Congratulations, you guessed the number!");
+                game_state = "off";
+            }
         }
     }
 }
